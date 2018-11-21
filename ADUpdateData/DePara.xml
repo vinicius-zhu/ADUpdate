@@ -1,0 +1,63 @@
+﻿<dataGridView xmlns="DePara">
+    <Row
+        CampoOrigem="NE"
+        CampoDestino="employeenumber" />
+    <Row
+        CampoOrigem="NOME"
+        CampoDestino="displayname" />
+    <Row
+        CampoOrigem="EMAIL"
+        CampoDestino="mail" />
+    <Row
+        CampoOrigem="CENTROCUSTO"
+        CampoDestino="departmentnumber" />
+    <Row
+        CampoOrigem="SETOR"
+        CampoDestino="department" />
+    <Row
+        CampoOrigem="APELIDOEMPRESA"
+        CampoDestino="company" />
+    <Row
+        CampoOrigem="TITCAR"
+        CampoDestino="title" />
+    <Row
+        CampoOrigem="RAMAL"
+        CampoDestino="telephonenumber" />
+    <Row
+        CampoOrigem="SITUACAO"
+        CampoDestino="info" />
+    <Row
+        CampoOrigem="USRSAP"
+        CampoDestino="middlename" />
+    <Row
+        CampoOrigem="USRCHEFE"
+        CampoDestino="manager" />
+    <Row
+        CampoOrigem="LOTACAO"
+        CampoDestino="description" />
+    <Row
+        CampoOrigem="NOMESETOR"
+        CampoDestino="division" />
+    <Row
+        CampoOrigem="ENDERECO"
+        CampoDestino="streetaddress" />
+    <Row
+        CampoOrigem="CIDADE"
+        CampoDestino="l" />
+    <Row
+        CampoOrigem="ESTADO"
+        CampoDestino="st" />
+    <Row
+        CampoOrigem="CEP"
+        CampoDestino="postalcode" />
+    <Row
+        CampoOrigem="CODIGOPAIS"
+        CampoDestino="countrycode" />
+    <Row
+        CampoOrigem="USRCHEFE"
+        CampoDestino="physicaldeliveryofficename" />
+    <Row
+        CampoOrigem="SCRIPTLOGON"
+        CampoDestino="scriptpath" />
+    <Row />
+</dataGridView>
