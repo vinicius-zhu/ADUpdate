@@ -30,6 +30,14 @@ namespace ADUpdateData
             get { return Attribute[key]; }
         }
         private Dictionary<String, String> m_Attribute = new Dictionary<string,string>();
+        private string m_KeyAttribute;
+        /// <summary>
+        /// Retorna o atributo do AD que é considerado chave de comparação para este usuário
+        /// </summary>
+        public String KeyAttribute
+        {
+            get{ return m_KeyAttribute; }
+        }
         #endregion
 
         #region Methods
@@ -38,8 +46,9 @@ namespace ADUpdateData
         /// </summary>
         /// <param name="dr">DataReader aberto com as informações dos usuários.</param>
         /// <param name="listfields">Lista de campos cujos valores serão armazenados para o usuário.</param>
-        public Userdata(OracleDataReader dr, List<String> listfields)
+        public Userdata(OracleDataReader dr, List<String> listfields, String keyAttribute)
         {
+            m_KeyAttribute = keyAttribute;
             for (Int32 i = 0; i < listfields.Count; i++)
             {
                 if (m_Attribute.ContainsKey(listfields[i]))
@@ -62,9 +71,9 @@ namespace ADUpdateData
         /// <summary>
         /// Cria uma instância vazia da classe Userdata.
         /// </summary>
-        public Userdata()
+        public Userdata(String keyAttribute)
         {
-            
+            m_KeyAttribute = keyAttribute;
         }
         /// <summary>
         /// Verifica se o usuário tem um atributo.
@@ -86,9 +95,9 @@ namespace ADUpdateData
         /// <returns>True se tiverem o mesmo nome de usuário ou se todos os atributos forem iguais. False do contrário.</returns>
         public static Boolean operator ==(Userdata a, Userdata b)
         {
-            if (a.Attribute.ContainsKey("cn") && b.Attribute.ContainsKey("cn"))
+            if (a.Attribute.ContainsKey(a.KeyAttribute) && b.Attribute.ContainsKey(b.KeyAttribute))
             {
-                if (a.Attribute["cn"] == b.Attribute["cn"])
+                if (a.Attribute[a.KeyAttribute] == b.Attribute[b.KeyAttribute])
                 {
                     return true;
                 }
@@ -156,12 +165,12 @@ namespace ADUpdateData
     {
         public override bool Equals(Userdata x, Userdata y)
         {
-            if (x.ContainsKey("cn") && y.ContainsKey("cn"))
+            if (x.ContainsKey(x.KeyAttribute) && y.ContainsKey(y.KeyAttribute))
             {
-                Userdata a = new Userdata();
-                Userdata b = new Userdata();
-                a.Attribute.Add("cn", x["cn"]);
-                b.Attribute.Add("cn", y["cn"]);
+                Userdata a = new Userdata(x.KeyAttribute);
+                Userdata b = new Userdata(y.KeyAttribute);
+                a.Attribute.Add(a.KeyAttribute, x[x.KeyAttribute]);
+                b.Attribute.Add(b.KeyAttribute, y[y.KeyAttribute]);
                 return a == b;
             }
             return x == y;
@@ -169,10 +178,10 @@ namespace ADUpdateData
 
         public override int GetHashCode(Userdata obj)
         {
-            Userdata a = new Userdata();
-            if (obj.ContainsKey("cn"))
+            Userdata a = new Userdata(obj.KeyAttribute);
+            if (obj.ContainsKey(a.KeyAttribute))
             {
-                a.Attribute.Add("cn", obj["cn"]);
+                a.Attribute.Add(a.KeyAttribute, obj[a.KeyAttribute]);
             }
             return a.GetHashCode();
         }

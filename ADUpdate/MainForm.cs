@@ -526,7 +526,7 @@ namespace ADUpdate
             if (String.IsNullOrEmpty(keyOrafield))
             {
                 keyOrafield = setup.textBoxKeyField.Text;
-                keyADfield = "cn";
+                keyADfield = setup.textBoxKeyFieldAD.Text;
             }
 
             if (log)
@@ -535,7 +535,7 @@ namespace ADUpdate
                 swlog.WriteLine("keyADfield: " + keyADfield);
             }
 
-            ADWork adw = new ADWork(setup.dataGridViewLdapStrings, setup.textBoxLdapUsername.Text, setup.textBoxLdapPassword.Text);
+            ADWork adw = new ADWork(setup.dataGridViewLdapStrings, setup.textBoxLdapUsername.Text, setup.textBoxLdapPassword.Text, setup.textBoxKeyFieldAD.Text);
             Dictionary<String, Userdata> usuarios = new Dictionary<string, Userdata>();
             String OldOraHome = Environment.GetEnvironmentVariable("ORACLE_HOME");
             if (!String.IsNullOrEmpty(setup.textBoxOraHome.Text))
@@ -562,7 +562,7 @@ namespace ADUpdate
                 {
                     while (dr.Read())
                     {
-                        Userdata us = new Userdata(dr, m_Fields);
+                        Userdata us = new Userdata(dr, m_Fields,setup.textBoxKeyFieldAD.Text);
                         try
                         {
                             if (!usuarios.ContainsKey(us.Attribute[keyOrafield]) && !String.IsNullOrEmpty(us.Attribute[keyOrafield]))

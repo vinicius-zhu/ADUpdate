@@ -53,6 +53,10 @@ namespace ADUpdateData
         /// Senha do usuário que irá atualizar o AD.
         /// </summary>
         private String m_Password;
+        /// <summary>
+        /// Campo que será considerado chave de busca no AD (a ser comparado com o campo chave no Oracle)
+        /// </summary>
+        private String m_KeyFieldAD;
 
         #endregion
 
@@ -63,11 +67,12 @@ namespace ADUpdateData
         /// <param name="ldapStrings">Endereços das OUs que devem ser atualizadas no AD.</param>
         /// <param name="username">Usuário com permissão para atualizar o AD.</param>
         /// <param name="password">Senha do usuário com permissão para atualizar o AD.</param>
-        public ADWork(DataGridView ldapStrings, String username, String password)
+        public ADWork(DataGridView ldapStrings, String username, String password, String keyFieldAD)
         {
             m_LdapStrings = ldapStrings;
             m_Username = username;
             m_Password = password;
+            m_KeyFieldAD = keyFieldAD;
         }
         /// <summary>
         /// Atualiza o AD.
@@ -110,7 +115,7 @@ namespace ADUpdateData
                                 if (objectName.ToLower() == "manager" || objectName.ToLower() == "assistant" || objectName.ToLower() == "secretary")
                                 {
                                     DirectoryEntry boss =
-                                        GetADInfo(objectValue, "cn", objectValue, ADFilterField).GetDirectoryEntry();
+                                        GetADInfo(objectValue, m_KeyFieldAD, objectValue, ADFilterField).GetDirectoryEntry();
                                     objectValue = boss.Properties["distinguishedname"].Value.ToString();
                                 }
 
@@ -266,9 +271,9 @@ namespace ADUpdateData
                     {
                         foreach (SearchResult result in results)
                         {
-                            if (result.Properties["cn"][0] != null)
+                            if (result.Properties[m_KeyFieldAD][0] != null)
                             {
-                                String username = result.Properties["cn"][0].ToString();
+                                String username = result.Properties[m_KeyFieldAD][0].ToString();
                                 if (!users.Contains(username))
                                 {
                                     users.Add(username);
